@@ -9,6 +9,8 @@ namespace Netpress.Controllers
 {
 	public class HomeController : Controller
 	{
+		public int postsPerPage;
+
 		public ActionResult Index ()
 		{
 			ViewData ["Message"] = "Welcome to ASP.NET MVC on Mono!";
