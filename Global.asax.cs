@@ -14,7 +14,7 @@ namespace Netpress
 			routes.IgnoreRoute ("{resource}.axd/{*pathInfo}");
 
 			routes.MapRoute (
-				"Default",
+				"Netpress",
 				"{controller}/{action}/{id}",
 				new { controller = "Home", action = "Index", id = "" }
 			);
