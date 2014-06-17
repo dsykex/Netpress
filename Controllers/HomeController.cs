@@ -15,7 +15,6 @@ namespace Netpress.Controllers
 {
 	public class HomeController : Controller
 	{
-<<<<<<< HEAD
 		private MySqlConnection con;
 		private string server;
 		private string database;
@@ -24,14 +23,12 @@ namespace Netpress.Controllers
 
 		public int postsPerPage;
 
-=======
->>>>>>> parent of 19e55e1... Added a new variable
 		public ActionResult Index ()
 		{
 			server = "localhost";
 			database = "npdb";
 			uid = "root";
-			password = "ascend1@1#_";
+			password = "...";
 			string connectionString;
 			connectionString = "SERVER=" + server + ";" + "DATABASE=" + 
 				database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + "; Convert Zero Datetime=True; Allow Zero Datetime=true";

@@ -133,6 +133,7 @@
     </Compile>
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="npdb\NPDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />
