@@ -16,7 +16,7 @@ namespace Netpress
 	public class NPDB
 	{
 		private XmlDocument dbsettings;
-		private MySqlConnection ConnectionStringSettings;
+		private MySqlConnection connection;
 
 		public NPDB ()
 		{
@@ -31,8 +31,18 @@ namespace Netpress
 			string database = dbsettings.SelectSingleNode ("Database").InnerText;
 			string usr = dbsettings.SelectSingleNode ("UserId").InnerText;
 			string password = dbsettings.SelectSingleNode ("Password").InnerText;
-
+		
 			string cString = string.Format("server={0};");
+			connection = new MySqlConnection (cString);
+
+			try
+			{
+				connection.Open();
+			}
+			catch(Exception ex) 
+			{
+				Console.WriteLine (ex.ToString ());
+			}
 		}
 	}
 }
