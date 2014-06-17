@@ -15,6 +15,7 @@ namespace Netpress.Controllers
 {
 	public class HomeController : Controller
 	{
+<<<<<<< HEAD
 		private MySqlConnection con;
 		private string server;
 		private string database;
@@ -23,6 +24,8 @@ namespace Netpress.Controllers
 
 		public int postsPerPage;
 
+=======
+>>>>>>> parent of 19e55e1... Added a new variable
 		public ActionResult Index ()
 		{
 			server = "localhost";
