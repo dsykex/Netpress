@@ -2,9 +2,26 @@
 <html>
 <head>
     <title>@ViewBag.Title</title>
+        <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foundation | Welcome</title>
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/foundation.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/custom.css")" />
+    <script src="@Url.Content("~/Scripts/js/foundation/foundation.js")"></script>
+
 </head>
-<body style="">
+<body>
+	<p id="headerName">Netpress CMS</p>
+	<p style="font-size:13px; text-align:center; color:#008cba; font-style:italic; margin:0;">Developed by DSykex of Sykes Creatives.</p>
+	
+
 	@RenderBody()
+	
+    <script src="@Url.Content("~/Scripts/js/vendor/jquery.js")"></script>
+    <script src="@Url.Content("~/Scripts/js/foundation.min.js")"></script>
+    <script>
+      $(document).foundation();
+    </script>
 </body>
 </html>
 

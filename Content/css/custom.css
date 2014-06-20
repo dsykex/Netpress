@@ -1,0 +1,66 @@
+#headerName
+{
+	font-size:25px; text-align:center;
+	color:#fff; 
+	margin:0; 
+	background:#008cba;
+}
+
+#followMessage
+{
+	opacity:.7;
+	transition:all 0.2s ease-in-out;
+}
+
+#followMessage:hover
+{
+	opacity:1;
+}
+
+#repoMessage
+{
+	opacity:.7;
+	transition:all 0.2s ease-in-out;
+}
+
+#repoMessage:hover
+{
+	opacity:1;
+}
+
+#devMessage
+{
+	opacity:.7;
+	transition:all 0.2s ease-in-out;
+}
+
+#devMessage:hover
+{
+	opacity:1;
+}
+
+#disc-panel
+{
+	opacity:0.65;
+	transition:all 0.4s ease-in-out;
+}
+
+#disc-panel:hover
+{
+	left:0px;
+	opacity:1;
+}
+
+/* Post Styles */
+/*---------------------*/
+
+#pWrapper .row
+{
+	opacity:0.5;
+	transition:all 0.4s ease-in-out;
+}
+
+#pWrapper .row:hover
+{
+	opacity:1;
+}

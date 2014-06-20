@@ -1,10 +1,78 @@
-﻿<!--model Netpress.Controllers.HomeController-->
-
+﻿@model Netpress.Models.Post[]
 @{
-    ViewBag.Title = "Index";
+
     Layout = "~/Views/Shared/_Layout.cshtml";
+    //ViewBag.Title = "Netpress CMS";
+    
+
 }
 
-<div style="padding: 25px 0px 25px 0px; height:400px; width:100%; text-align:center; color:#fff; background-color:#000; opacity:0.3; border-radius:190px;">
-	<p style="font-size:23px; font-family:Arial;">time</p>
+<div class="large-12 small-12 columns">
+	<div class="row">
+		<div style="position:relative; top:20px;" class="panel radius" id="disc-panel">
+			<div class="row">
+				<div id="repoMessage" class="large-4 small-4 columns">
+					<h4>Stay updated with development.</h4>
+					<p style="opacity:.7;">Visit the official github repository for Netpress CMS and stay up-to-date with Netpress CMS's growth!</p>
+					<hr/>
+					<ul style="list-style:bullet;">
+						<li><a href="#">Main git repo.</a></li>
+						<li><a href="#">Netpress portfolio.</a></li>
+						<li><a href="#">Documentation.</a></li>
+					</ul>
+				</div>
+				<div id="devMessage" class="large-4 small-4 columns">
+					<h4>Help Netpress evolve!</h4>
+					<p style="opacity:.7;">See what it takes to build Netpress using our API and development tools.</p>
+					<hr/>
+					<ul style="list-style:bullet;">
+						<li><a href="#">Installation guide.</a></li>
+						<li><a href="#">SDK Download</a></li>
+					</ul>
+				</div>
+				<div id="followMessage" class="large-4 small-4 columns">
+					<h4>Follow us</h4>
+					<p style="opacity:.7;">Follow us on twitter/facebook for news and updates regarding Netpress CMS and other products by Sykes Creatives.</p>
+					<hr/>
+					<ul style="list-style:bullet;">
+						<li><a href="#">Twitter</a></li>
+						<li><a href="#">Facebook</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="margin-top:20px;" class="row">
+		<div class="large-8 small-8 columns" id="pWrapper">
+			@foreach(Netpress.Models.Post p in Model)
+			{
+				if(p != null)
+				{	
+					<div class="row">
+						<div class="large-1 small-1 columns">
+							<div class="postTabs text-center">
+								<p style="margin:0; color:#777; font-size:22px;" class="month">@p.time.ToString("MMM").ToUpper()</p>
+								<p style="margin:0; color:#777; text-align:center; background:#eee;" class="day">@p.time.ToString("dd")</p>
+							</div>
+						</div>
+						<div class="large-11 small-11 columns">			
+							<h4 style="font-weight:100; color:#008cba; font-size:28px; margin:0;">@p.title</h4>
+							<p style="font-style:italic; font-size:13px; margin:0 0 20px 15px;;">Written by, @p.author</p>
+							<p>@p.body</p>
+						</div>
+					</div>
+					<hr style="margin:10px 0 0 0;" />
+				}
+				else
+				{
+					
+				}
+			}
+		</div>
+		<div class="large-4 small-4 columns">
+			<div class="panel radius">
+				<p>Yoo.</p>
+			</div>
+		</div>
+	</div>
 </div>

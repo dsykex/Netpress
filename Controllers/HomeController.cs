@@ -6,66 +6,54 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using MySql.Data.MySqlClient;
 using MySql.Data;
+using MySql.Data.Entity;
+using System.Data;
 using MySql.Data.Types;
 using System.Data.Common;
 using System.Configuration;
-
+using Netpress.Models;
 
 namespace Netpress.Controllers
 {
 	public class HomeController : Controller
 	{
 		private MySqlConnection con;
-		private string server;
-		private string database;
-		private string uid;
-		private string password;
+		private string cString;
 
+		public NPDB db;
 		public int postsPerPage;
+		public NPDBEntity entity;
+		public Netpress.Models.Post[] posts;
 
-		public ActionResult Index ()
+		public ActionResult Index (/*int id*/)
 		{
-			server = "localhost";
-			database = "npdb";
-			uid = "root";
-			password = "...";
-			string connectionString;
-			connectionString = "SERVER=" + server + ";" + "DATABASE=" + 
-				database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + "; Convert Zero Datetime=True; Allow Zero Datetime=true";
+			db = new NPDB ();
+			posts = new Netpress.Models.Post[3];
+			MySqlCommand com = db.connection.CreateCommand ();
+			com.CommandText = "SELECT * FROM posts";
+			MySqlDataReader reader = com.ExecuteReader ();
 
+			int i = 0;
+			while (reader.Read()) {
+				i++;
+				Models.Post p = new Netpress.Models.Post();
+				p.id = (int)reader ["id"];
+				p.title = (string)reader ["title"];
+				p.author = (string)reader ["author"];
+				p.tags = (string)reader ["tags"];
+				p.body = (string)reader ["body"];
+				p.time = (DateTime)reader ["post_time"];
+				posts [i] = p;
 
-
-			ViewData ["Message"] = "Welcome to ASP.NET MVC on Mono!";
-			Initialize ();
-
-			string[] titles = new string[10];
-
-			MySqlConnection con = new MySqlConnection (connectionString);
-
-			try{
-				con.Open();
-
-				MySqlCommand com = con.CreateCommand();
-				com.CommandText = "SELECT * FROM posts";
-
-				MySqlDataReader reader = com.ExecuteReader();
-
-				while(reader.Read())
-				{
-					DateTime dTime = DateTime.Parse(reader["post_time"].ToString());
-					string sTime = dTime.ToString("MMM");
-					titles[0] = sTime;
-				}
-				reader.Close();
-				con.Close();
-			}
-			catch(Exception ex) {
-				Console.WriteLine (ex.ToString ());
+				//TempData ["posts"] = posts;
 			}
 
 
-			ViewBag.Time = new DateTime (DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-			return View ();
+			reader.Close ();
+			//ExecuteCommand (db.connection);
+			db.connection.Close ();
+
+			return View (posts);
 		}
 
 		private void Initialize()
@@ -75,12 +63,9 @@ namespace Netpress.Controllers
 
 		private void ExecuteCommand(MySqlConnection c)
 		{
-			string query = "INSERT INTO posts (id, title, post_time, author, tags, body) VALUES('2', 'Bagro Bang', '"+DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")+"', 'DSykex', 'bang bang bruh', 'fdafdfdsfdafsfsfsfsfsfsfafdsf')";
-
+			string query = "INSERT INTO posts (id, title, post_time, author, tags, body) VALUES('1', 'Bagro Bang - Two', '"+DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")+"', 'DSykex', 'bang bang bruh', 'fdafdfdsffjsdhflkdjshfldjsfhlajhfdlsjfhdalhfsdjhljdafsfsfsfsfsfsfafdsf')";
 			MySqlCommand cmd = new MySqlCommand(query, c);
-
 			cmd.ExecuteNonQuery();
-	
 		}
 
 		private void SelectCommand(MySqlConnection c)
