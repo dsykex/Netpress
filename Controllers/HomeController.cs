@@ -48,7 +48,6 @@ namespace Netpress.Controllers
 				//TempData ["posts"] = posts;
 			}
 
-
 			reader.Close ();
 			//ExecuteCommand (db.connection);
 			db.connection.Close ();
