@@ -67,6 +67,11 @@ namespace Netpress.Controllers
 			cmd.ExecuteNonQuery();
 		}
 
+		private ActionResult UpdatePost()
+		{
+			return RedirectToAction ("Index", "Home");
+		}
+
 		private void SelectCommand(MySqlConnection c)
 		{
 
