@@ -44,15 +44,20 @@ namespace Netpress.Controllers
 				p.body = (string)reader ["body"];
 				p.time = (DateTime)reader ["post_time"];
 				posts [i] = p;
-
-				//TempData ["posts"] = posts;
 			}
 
-			reader.Close ();
+			reader.Close (); 
 			//ExecuteCommand (db.connection);
 			db.connection.Close ();
 
 			return View (posts);
+		}
+
+		public ActionResult p(int id)
+		{
+			Post post = Post.GetPost (id);
+
+			return View (post);
 		}
 
 		private void Initialize()

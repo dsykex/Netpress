@@ -51,12 +51,12 @@
 					<div class="row">
 						<div class="large-1 small-1 columns">
 							<div class="postTabs text-center">
-								<p style="margin:0; color:#777; font-size:22px;" class="month">@p.time.ToString("MMM").ToUpper()</p>
+								<p href="@Href("~/Home/p/" + p.id)" style="margin:0; color:#777; font-size:22px;" class="month">@p.time.ToString("MMM").ToUpper()</p>
 								<p style="margin:0; color:#777; text-align:center; background:#eee;" class="day">@p.time.ToString("dd")</p>
 							</div>
 						</div>
 						<div class="large-11 small-11 columns">			
-							<h4 style="font-weight:100; color:#008cba; font-size:28px; margin:0;">@p.title</h4>
+							<a href="@Href("~/Home/p/" + p.id)" style="font-weight:100; color:#008cba; font-size:28px; margin:0;">@p.title</a>
 							<p style="font-style:italic; font-size:13px; margin:0 0 20px 15px;;">Written by, @p.author</p>
 							<p>@p.body</p>
 						</div>
