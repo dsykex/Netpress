@@ -138,6 +138,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="npdb\NPDB.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\Tag.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />
@@ -175,6 +176,7 @@
     <Content Include="Content\css\custom.css" />
     <Content Include="App_Code\PostHelper.cshtml" />
     <Content Include="Views\Home\p.cshtml" />
+    <Content Include="Views\Home\edit_post.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

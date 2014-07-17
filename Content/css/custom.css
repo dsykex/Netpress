@@ -1,9 +1,9 @@
 #headerName
 {
-	font-size:25px; text-align:center;
+	font-size:25px; 
+	text-align:center;
 	color:#fff; 
-	margin:0; 
-	background:#008cba;
+	margin-bottom:-20px;
 }
 
 #followMessage

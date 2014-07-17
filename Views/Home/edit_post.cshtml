@@ -1,0 +1,45 @@
+﻿@model Netpress.Models.Post
+@{
+ 	ViewBag.Title = "New Post";
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>edit_post</h2>
+
+<div class="large-12 small-12 columns">
+	<div class="row">
+		<div class="panel radius">
+			<form action="@Href("~/Home/UpdatePost")" method="post">
+
+				<input type="hidden" name="id" value="@Model.id" />
+				
+				<div class="row">
+					<input type="text" name="title" value="@Model.title" />
+					<hr/>
+				</div>
+				<div class="row">
+					<input type="text" name="tags" value="@Model.tags" />
+					<hr/>
+				</div>
+				<div class="row">
+					<input type="text" name="time" value="@Model.time" />
+					<hr/>
+				</div>
+				<div class="row">
+					<input type="text" name="thumbnail" value="@Model.thumbnail" />
+					<hr/>
+				</div>
+				<div class="row">
+					<input type="text" name="body" value="@Model.body" />
+					<hr/>
+				</div>
+				<div class="row">
+					<input type="text" name="author" value="@Model.author" />
+					<hr/>
+				</div>
+				<input type="submit" class="button radius" value="Post" />
+			</form>
+		</div>
+	</div>
+</div>

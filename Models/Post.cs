@@ -7,11 +7,12 @@ namespace Netpress.Models
 {
 	public class Post
 	{
-		public Post (int _id, string _title, string _tags, string _author, DateTime _time, string _body)
+		public Post (int _id, string _title, string _tags, string _thumbnail, string _author, DateTime _time, string _body)
 		{
 			id = _id;
 			title = _title;
 			tags = _tags;
+			thumbnail = _thumbnail;
 			author = _author;
 			time = _time;
 			body = _body;
@@ -24,26 +25,56 @@ namespace Netpress.Models
 			MySqlCommand fetch = db.connection.CreateCommand ();
 			fetch.CommandText = string.Format("SELECT * FROM posts WHERE id={0}",id);
 
+			if (id != 0) {
+				MySqlDataReader reader = fetch.ExecuteReader ();
+
+				while (reader.Read()) {
+					p = Post.Init (
+						(int)reader ["id"],
+						(string)reader ["title"],
+						(string)reader ["tags"],
+						(string)reader ["thumbnail"],
+						(string)reader ["author"],
+						(DateTime)reader ["post_time"],
+						(string)reader ["body"]);
+				}
+				reader.Close ();
+				db.connection.Close ();
+			} else {
+				p = null;
+			}
+			return (p == null) ? null : p;
+		}
+
+		public static int Max()
+		{
+			NPDB db = new NPDB ();
+
+			MySqlCommand fetch = db.connection.CreateCommand ();
+			fetch.CommandText = string.Format("SELECT * FROM posts");
 			MySqlDataReader reader = fetch.ExecuteReader ();
 
+			int count = 0;
+
 			while (reader.Read()) {
-				p = Post.Init (
-					(int)reader ["id"],
-					(string)reader ["title"],
-					(string)reader ["tags"],
-					(string)reader ["author"],
-					(DateTime)reader ["post_time"],
-					(string)reader ["body"]);
+				count++;
 			}
 			reader.Close ();
 			db.connection.Close ();
 
-			return p;
+			count = (count == 0) ? 0 : count;
+
+			return count;
 		}
 
-		public static Post Init(int id, string title, string tags, string author, DateTime time, string body)
+		public static bool isNull(Post p)
 		{
-			return new Post (id, title, tags, author, time, body);
+			return (p == null) ? true : false;
+		}
+
+		public static Post Init(int id, string title, string tags, string thumbnail, string author, DateTime time, string body)
+		{
+			return new Post (id, title, tags, thumbnail, author, time, body);
 		}
 
 		public Post()
@@ -57,6 +88,7 @@ namespace Netpress.Models
 		public DateTime time;
 		public string author;
 		public string body;
+		public string thumbnail;
 	}
 }
 
