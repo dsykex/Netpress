@@ -11,8 +11,8 @@
 			<div class="row">
 				<a href="@Href("~/Home/edit_post/")" style="font-size:24px;">New Post</a>
 				<div id="repoMessage" class="large-4 small-4 columns">
-					<h4>Stay updated with development. @pCount</h4>
-					<p style="opacity:.7;">Visit the official github repository for Netpress CMS and stay up-to-date with Netpress CMS's growth!</p>
+					<h4 style="font-family:opensans_light; font-size:27px;">Stay updated with development.</h4>
+					<p style="opacity:.7; font-size:16px;">Visit the official github repository for Netpress CMS and stay up-to-date with Netpress CMS's growth!</p>
 					<hr/>
 					<ul style="list-style:bullet;">
 						<li><a href="#">Main git repo.</a></li>
@@ -21,8 +21,8 @@
 					</ul>
 				</div>
 				<div id="devMessage" class="large-4 small-4 columns">
-					<h4>Help Netpress evolve!</h4>
-					<p style="opacity:.7;">See what it takes to build Netpress using our API and development tools.</p>
+					<h4 style="font-family:opensans_light; font-size:27px;">Help Netpress evolve!</h4>
+					<p style="opacity:.7; font-size:16px;">See what it takes to build Netpress using our API and development tools.</p>
 					<hr/>
 					<ul style="list-style:bullet;">
 						<li><a href="#">Installation guide.</a></li>
@@ -30,8 +30,8 @@
 					</ul>
 				</div>
 				<div id="followMessage" class="large-4 small-4 columns">
-					<h4>Follow us</h4>
-					<p style="opacity:.7;">Follow us on twitter/facebook for news and updates regarding Netpress CMS and other products by Sykes Creatives.</p>
+					<h4 style="font-family:opensans_light; font-size:27px;">Follow us</h4>
+					<p style="opacity:.7; font-size:16px;">Follow us on twitter/facebook for news and updates regarding Netpress CMS and other products by Sykes Creatives.</p>
 					<hr/>
 					<ul style="list-style:bullet;">
 						<li><a href="#">Twitter</a></li>
@@ -41,30 +41,39 @@
 			</div>
 		</div>
 	</div>
+	<hr style="margin-bottom:20px;"/>
 	<div style="margin-top:20px;" class="row">
 		<div class="large-8 small-8 columns" id="pWrapper">
 			@if(pCount==0)
 			{
-				<p style="font-style:italic; font-size:20px; color:#008cba;">No Posts</p>
+				<p style="font-style:italic; font-size:25px; color:#008cba;">No Posts</p>
 			}
 			@foreach(Netpress.Models.Post p in Model)
 			{	
 				if(p != null)
 				{	
-					<div class="row">
-						<div class="large-1 small-1 columns">
-							<div class="postTabs text-center">
-								<p href="@Href("~/Home/p/" + p.id)" style="margin:0; color:#777; font-size:22px;" class="month">@p.time.ToString("MMM").ToUpper()</p>
-								<p style="margin:0; color:#777; text-align:center; background:#eee;" class="day">@p.time.ToString("dd")</p>
+					string thumbnail = (!p.thumbnail.Contains("http")) ? "~/Content/Images/BlueMoon.png" : p.thumbnail;
+					<div style="margin-bottom:0;" class="row">
+						<div class="large-12 small-12 columns">
+							<div class="large-1 small-1 columns">
+								<div class="postTabs text-center">
+									<p href="@Href("~/Home/p/" + p.id)?" style="margin:0; color:#777; font-size:22px;" class="month">@p.time.ToString("MMM").ToUpper()</p>
+									<p style="margin:0; color:#777; text-align:center; background:#eee;" class="day">@p.time.ToString("dd")</p>
+								</div>
+							</div>
+							<div style="padding:0 10px 0 7px;" class="large-2 small-2 columns">
+								<img src="@Href(thumbnail)" alt="" class="th expand radius" /> 
+							</div>
+							<div style="padding:0;" class="large-9 small-9 columns">			
+								<a href="@Href("~/Home/p/" + p.id)" style="font-weight:100; color:#008cba; font-size:32px; margin:0;">@p.title 
+									<a data-tooltip href="@Href("~/Home/edit_post/" + p.id)" style="padding:4px 8px 4px 8px; font-weight:bold; font-size:12.5px;" class="small button right radius" title="Make changes to @p.title">Edit Post</a>
+								</a>
+								<p style="font-family:opensans_italic; font-size:16px; margin:0 0 15px 15px;;">Written by, @p.author</p>
+								<p style="font-size:17px; margin-top:-10px;">@p.body</p>
 							</div>
 						</div>
-						<div class="large-11 small-11 columns">			
-							<a href="@Href("~/Home/p/" + p.id)" style="font-weight:100; color:#008cba; font-size:28px; margin:0;">@p.title</a>
-							<p style="font-style:italic; font-size:13px; margin:0 0 20px 15px;;">Written by, @p.author</p>
-							<p>@p.body</p>
-						</div>
 					</div>
-					<hr style="margin:10px 0 0 0;" />
+					<hr style="margin-top:-50px; opacity:0.5 " class="radius" />
 				}
 			}
 		</div>

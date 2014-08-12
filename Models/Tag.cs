@@ -42,7 +42,7 @@ namespace Netpress.Models
 			reader.Close ();
 			db.connection.Close ();
 
-			count = (count == 0) ? 1 : count;
+			count = (count == 0) ? 0 : count;
 
 			return count;
 		}
