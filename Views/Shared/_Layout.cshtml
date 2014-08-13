@@ -11,12 +11,52 @@
     <script src="@Url.Content("~/Scripts/js/foundation/foundation.js")"></script>
 
 </head>
+@using Netpress.Models;
+@{	
+    bool isMember = ViewBag.IsMember ?? false;
+    bool isAdmin = ViewBag.IsAdmin ?? false;
+}
 <body>
-	<div style="background:#008cba; height:40px; padding-top:5px;" class="text-center"><a id="headerName" href="@Href("~/")" class="text-center">Netpress CMS</a></div>
+	<div style="background:#008cba; height:40px; padding-top:5px;" class="text-center">
+		<a id="headerName" style="font-weight:bold; font-family:opensans_light;" href="@Href("~/")" class="text-center">**Netpress CMS**</a>
+		@if(isMember)
+		{
+			Account user = Account.GetUser(User.Identity.Name);
+			string displayName = user.displayName ?? user.username;
+			string rank = (user.rank == "a") ? "Administrator" : "Member";
+			<div style="background:#008cba; height:70px;margin-top:10px;">
+				<div style="padding:0px;" class="large-12 small-12 columns">
+					<div class="row">
+						<div style="padding:0px;" class="large-6 small-6 columns">
+							<div style="padding:0px;" class="large-1 small-1 columns">
+								<img src="@Href("~/Content/Images/BlueMoon.png")" alt="" class="radius" />
+							</div>
+							<div style="margin-top:-8px;" class="large-11 small-11 columns">
+								<div style="padding:0px !important; height:30px;" class="row">
+									<p style="color:#fff; font-size:22px; font-weight:bold; padding:0px 0px 0px 10px;" class="left">Hello, @displayName!</p>
+								</div>
+								<p style="color:#fff; font-size:15px; position:relative; right:118px;" class="left">@rank</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a id="logButton" style="margin-top:0px !important;" href="@Href("~/Account/DeAuth")" class="button right">Logout</a>
+		}
+		else
+		{
+			<div class="row">		
+				<a id="logButton" href="@Href("~/Account/Signup")" class="button  right">Signup</a>
+				<a id="logButton" href="@Href("~/Account/Login")" class="button right">Login</a>
+			</div>
+		}
+		<!--<p class="text-center" style="font-size:13px; text-align:center; color:#008cba; font-style:italic; margin:0; position:relative; top:-20px; border:1px solid #000; width:150px;">Developed by DSykex of Sykes Creatives.</p>-->
+	</div>
 	
-	<p style="font-size:13px; text-align:center; color:#008cba; font-style:italic; margin:0;">Developed by DSykex of Sykes Creatives.</p>
+	<div style="padding:0px;" class="row">
 	@RenderBody()
-	
+	@User.Identity.Name;
+	</div>
     <script src="@Url.Content("~/Scripts/js/vendor/jquery.js")"></script>
     <script src="@Url.Content("~/Scripts/js/foundation.min.js")"></script>
     <script>

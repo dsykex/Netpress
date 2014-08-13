@@ -135,6 +135,8 @@
     <Compile Include="npdb\NPDB.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />
@@ -177,6 +179,8 @@
     <Content Include="Content\Images\BlueMoon.png" />
     <Content Include="Content\css\fontstyles.css" />
     <Content Include="Content\css\stylesheet.css" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Signup.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
@@ -205,5 +209,13 @@
     <None Include="Content\fonts\bebasneue-webfont.svg" />
     <None Include="Content\fonts\bebasneue-webfont.ttf" />
     <None Include="Content\fonts\bebasneue-webfont.woff" />
+    <None Include="Content\fonts\aftasansthin-italic-webfont.eot" />
+    <None Include="Content\fonts\aftasansthin-italic-webfont.svg" />
+    <None Include="Content\fonts\aftasansthin-italic-webfont.ttf" />
+    <None Include="Content\fonts\aftasansthin-italic-webfont.woff" />
+    <None Include="Content\fonts\aftasansthin-regular-webfont.eot" />
+    <None Include="Content\fonts\aftasansthin-regular-webfont.svg" />
+    <None Include="Content\fonts\aftasansthin-regular-webfont.ttf" />
+    <None Include="Content\fonts\aftasansthin-regular-webfont.woff" />
   </ItemGroup>
 </Project>

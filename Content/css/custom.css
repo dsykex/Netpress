@@ -51,6 +51,34 @@
 	opacity:1;
 }
 
+#logButton
+{
+	background:#008cba;
+	padding:3px 16px 7px 16px;
+	font-size:19px;
+	font-family:"opensans_light";
+	color:#fff;
+	font-weight:bold;
+	margin-top:10px !important;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+}
+
+#logButton:hover,  #logButton:focus
+{
+	background:#fff;
+	color:#008cba;
+	-webkit-transition:all 0.2s ease-in-out;
+	-moz-transition:all 0.2s ease-in-out;
+	-o-transition:all 0.2s ease-in-out;
+	transition:all 0.2s ease-in-out;
+}
+
+.borderless
+{
+	border:none;
+}
+
 /* Post Styles */
 /*---------------------*/
 

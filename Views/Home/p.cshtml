@@ -14,7 +14,7 @@
 	Post[] relPosts = Post.GetRelPosts(Model.id);
 }
 
-<div class="large-12 small-12 columns">
+<div style="margin-top:30px;" class="large-12 small-12 columns">
 	<div class="row">
 		<div style="padding:0px;" class="large-9 small-9 columns">
 			<div style="padding:0px;" class="large-12 small-12 columns">
@@ -41,22 +41,22 @@
 			<div style="padding:5px 10px 5px 10px; border:none;" class="panel">
 				<p class="text-center" style="color:#008cba">@Model.author created this post.</p>
 			</div>
-			<h4 style="color:#008cba; font-size:25px;">Related Posts</h4>
-			<div class="panel radius">
-				@foreach(Post p in relPosts)
-				{
-					if(p.id == Model.id)
-					{
-					
-					}
-					else
+			@if(relPosts.Length > 1)
+			{
+				<h4 style="color:#008cba; font-size:25px; font-weight:200;">Related Posts</h4>
+				<div class="panel radius">
+					@foreach(Post p in relPosts)
 					{
 						<div class="row">
 							<a href="@Href("~/Home/p/"+p.id)" style="color:#008cba;">@p.title</a>
 						</div>
 					}
-				}
-			</div>
+				</div>
+			}
+			else
+			{
+				<p style="color:#008cba; font-size:15px; font-style:italic;">No Related Posts..</p>	
+			}
 			<hr/>
 		</div>
 	</div>

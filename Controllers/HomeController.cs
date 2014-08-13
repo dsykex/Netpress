@@ -25,6 +25,8 @@ namespace Netpress.Controllers
 		public int postsPerPage;
 		public NPDBEntity entity;
 		//public List<Netpress.Models.Post> posts;
+		public bool IsAdmin { get { return Session["IsAdmin"] != null && (bool)Session["IsAdmin"]; } }
+		public bool IsMember { get { return Session["IsMember"] != null && (bool)Session["IsMember"]; } }
 
 		public ActionResult Index (/*int id*/)
 		{
@@ -52,14 +54,14 @@ namespace Netpress.Controllers
 			reader.Close (); 
 			//ExecuteCommand (db.connection);
 			db.connection.Close ();
-
+			AccountSetup ();
 			return View (posts);
 		}
 
 		public ActionResult p(int id)
 		{
 			Post post = Post.GetPost (id);
-
+			AccountSetup ();
 			return View (post);
 		}
 
@@ -93,7 +95,7 @@ namespace Netpress.Controllers
 			}
 		
 			db.connection.Close ();
-		
+			AccountSetup ();
 			return View (post);
 		}
 
@@ -167,7 +169,42 @@ namespace Netpress.Controllers
 
 		private ActionResult UpdatePost()
 		{
+			AccountSetup ();
 			return RedirectToAction ("Index", "Home");
+		}
+
+		public void AccountSetup()
+		{
+			if (Request.IsAuthenticated)
+			{
+				Account uAccount = Account.GetUser(User.Identity.Name);
+				if (IsMember)
+				{
+					ViewBag.Username = uAccount.username;
+					ViewBag.ProfilePic = uAccount.profilePic ?? "http://www.tenettech.com/Themes/Tenet/Content/images/default-profile-pic.jpg";
+					ViewBag.UserRank = uAccount.rank;
+					ViewBag.UserId = uAccount.id;
+					ViewBag.IsMember = IsMember;
+					if (IsAdmin)
+					{
+						ViewBag.IsAdmin = IsAdmin;
+					}
+				}
+				else if (!IsMember)
+				{
+					Session["IsMember"] = false;
+					Session["IsAdmin"] = false;
+					ViewBag.IsMember = IsMember;
+					ViewBag.IsAdmin = IsAdmin;
+				}
+			}
+			else if (!Request.IsAuthenticated)
+			{
+				ViewBag.Username = "Guest";
+				FormsAuthentication.SignOut();
+				Session["IsMember"] = null;
+				Session["IsAdmin"] = null;
+			}
 		}
 
 		private void SelectCommand(MySqlConnection c)

@@ -1,0 +1,50 @@
+﻿@model Netpress.Models.Account
+@{
+    ViewBag.Title = "Signup - Netpress";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool isAdmin = ViewBag.IsAdmin ?? false;
+    string accountAuth = ViewBag.InvalidAccount ?? "";
+    bool showLogin = ViewBag.ShowLog ?? false;
+    bool isMember = ViewBag.IsMember ?? false;
+}
+
+@if(isMember)
+{
+    <h1 class="text-center">You are already logged in.</h1>
+    Response.Redirect(Url.Action("Index", "Home"));
+}
+else
+{
+    <div class="large-12 small-12 columns">
+        <div class="row">
+            <div class="">
+                <div class="row">
+	                <div class="large-6 small-6 columns">
+	                    <fieldset class="borderless">
+	        
+	                        @if (accountAuth != "")
+	                        {
+	                            <p id="messagee" style="font-size:17px; font-weight:bold; padding:10px;" class="animated label expand">@accountAuth</p>
+	                        }
+	                        <form action="@Href("~/Account/_Signup")" method="post" id="loginMethod"> 
+	                        @Html.AntiForgeryToken()
+	                                <label for="name">Name:</label>
+	                                <input type="text" name="username" id="name" class="radius" />
+	                                <label for="password">Password:</label>
+	                                <input type="password" name="password" id="password" value="" class="radius"/>
+	                                <label for="name">Display Name:</label>
+	                                <input type="text" name="displayName" id="name" class="radius" />
+	                                <label for="name">Email:</label>
+	                                <input type="text" name="email" id="name" class="radius"/>
+	                                <input type="hidden" name="rank" id="name" class="radius" value="member"/>
+	                                <input type="hidden" name="id" id="name" class="radius" value="0"/>
+	                                <input id="logButton" type="submit" class="small button radius" value="Signup"  />
+	                                <input id="logButton" type="button" class="small button radius" value ="Oh Snap!" />
+	                        </form>
+	                    </fieldset> 
+	                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
