@@ -27,7 +27,7 @@ namespace Netpress.Controllers
 		//public List<Netpress.Models.Post> posts;
 		public bool IsAdmin { get { return Session["IsAdmin"] != null && (bool)Session["IsAdmin"]; } }
 		public bool IsMember { get { return Session["IsMember"] != null && (bool)Session["IsMember"]; } }
-
+		string _time = DateTime.Now.ToString ("yyyy-MM-dd hh:mm:ss");
 		public ActionResult Index (/*int id*/)
 		{
 			db = new NPDB ();
@@ -68,7 +68,7 @@ namespace Netpress.Controllers
 		public ActionResult edit_post(int? id)
 		{
 			int _id = (id == null) ? 0 : id.Value;
-			string _time = DateTime.Now.ToString ("yyyy-MM-dd hh:mm:ss");
+
 			Post post = Post.GetPost (_id);
 
 			NPDB db = new NPDB ();
@@ -207,9 +207,35 @@ namespace Netpress.Controllers
 			}
 		}
 
-		private void SelectCommand(MySqlConnection c)
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[ValidateInput(false)]
+		public ActionResult PostComment(string comment, int postId)
 		{
+			Post post = Post.GetPost(postId);
+			Comment com = new Comment();
+			NPDB db = new NPDB ();
+			MySqlCommand cmd = db.connection.CreateCommand ();
+		
+			if (IsMember)
+			{
+				Account user = Account.GetUser(User.Identity.Name);
+				com.id = Comment.Max () + 1;
+				com.postId = post.id;
+				com.userName = user.displayName ?? user.username;
+				com.comment = comment;
 
+				cmd.CommandText = string.Format ("INSERT INTO comments (id, uname, ctime, body, pid) " +
+				                                 "VALUES ('{0}','{1}','{2}','{3}','{4}');",
+				                                 com.id,
+				                                 com.userName,
+				                                 _time,
+				                                 com.comment,
+				                                 com.postId);
+				cmd.ExecuteNonQuery ();
+			}
+			db.connection.Close ();
+			return RedirectToAction ("p", "Home", new { id = post.id });
 		}
 	}
 }

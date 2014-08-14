@@ -153,6 +153,29 @@ namespace Netpress.Models
 			Post[] _relPosts = relPosts.ToArray();
 			return (_relPosts != null) ? _relPosts : null; 
 		}
+
+		public static Comment[] GetComments(int id)
+		{
+			Post post = Post.GetPost (id);
+			List<Comment> comments = new List<Comment> ();
+			NPDB db = new NPDB ();
+			MySqlCommand fetch = db.connection.CreateCommand ();
+			fetch.CommandText = string.Format ("SELECT * FROM comments WHERE pid={0}", post.id);
+			MySqlDataReader reader = fetch.ExecuteReader ();
+			int counter = 0;
+			while (reader.Read()) {
+				comments.Add(Comment.Init(
+					(int)reader["id"],
+					(string)reader["uname"],
+					(DateTime)reader["ctime"],
+					(string)reader["body"],
+					(int)reader["pid"]));
+			}
+			reader.Close ();
+			db.connection.Close ();
+
+			return (comments.ToArray ().Length > 0) ? comments.ToArray() : null;
+		}
 	}
 }
 

@@ -12,28 +12,89 @@
     string thumbnail = (!Model.thumbnail.Contains("http")) ? "~/Content/Images/BlueMoon.png" : Model.thumbnail;
 	int i = 0;
 	Post[] relPosts = Post.GetRelPosts(Model.id);
+	Comment[] comments = Post.GetComments(Model.id);
+	bool isMember = ViewBag.IsMember ?? false;
+	bool isAdmin = ViewBag.IsAdmin ?? false;
 }
 
 <div style="margin-top:30px;" class="large-12 small-12 columns">
 	<div class="row">
 		<div style="padding:0px;" class="large-9 small-9 columns">
-			<div style="padding:0px;" class="large-12 small-12 columns">
-				<div class="large-2 small-2 columns">					
-					<div class="postTabs text-center">
-						<p href="@Href("~/Home/p/" + Model.id)?" style="margin:0; color:#777; font-size:35px;" class="month">@Model.time.ToString("MMM").ToUpper()</p>
-						<p style="margin:0; color:#777; text-align:center; background:#eee; font-size:26px;" class="day">@Model.time.ToString("dd")</p>
+			<div style="padding:15px;" class="large-12 small-12 columns">
+				<div class="row">
+					<div class="large-2 small-2 columns">					
+						<div class="postTabs text-center">
+							<p href="@Href("~/Home/p/" + Model.id)?" style="margin:0; color:#777; font-size:30px;" class="month">@Model.time.ToString("MMM").ToUpper()</p>
+							<p style="margin:0; color:#777; text-align:center; background:#eee; font-size:26px;" class="day">@Model.time.ToString("dd")</p>
+						</div>
+					</div>
+					<div style="padding:0 10px 0 7px;" class="large-4 small-4 columns">
+						<img src="@Href(thumbnail)" alt="" class="th expand radius" /> 
+					</div>
+					<div style="padding:0;" class="large-6 small-6 columns">			
+						<a href="@Href("~/Home/p/" + Model.id)" style="font-weight:100; color:#008cba; font-size:57px; margin:0;">@Model.title 
+							<a href="@Href("~/Home/edit_post/" + Model.id)" style="padding:4px 8px 4px 8px; font-weight:bold; background:#008cba; font-size:11.5px; color:#fff;" class="small button right" title="Make changes to @Model.title">Edit Post</a>
+						</a>
+						<!-- <p style="font-family:opensans_italic; font-size:16px; margin:0 0 15px 15px;;">Written by, @Model.author</p> -->
+						<hr/>
+						<p style="font-size:17px; margin-top:-10px;">@Model.body</p>
 					</div>
 				</div>
-				<div style="padding:0 10px 0 7px;" class="large-4 small-4 columns">
-					<img src="@Href(thumbnail)" alt="" class="th expand radius" /> 
-				</div>
-				<div style="padding:0;" class="large-6 small-6 columns">			
-					<a href="@Href("~/Home/p/" + Model.id)" style="font-weight:100; color:#008cba; font-size:57px; margin:0;">@Model.title 
-						<a href="@Href("~/Home/edit_post/" + Model.id)" style="padding:4px 8px 4px 8px; font-weight:bold; background:#008cba; font-size:11.5px; color:#fff;" class="small button right" title="Make changes to @Model.title">Edit Post</a>
-					</a>
-					<!-- <p style="font-family:opensans_italic; font-size:16px; margin:0 0 15px 15px;;">Written by, @Model.author</p> -->
-					<hr/>
-					<p style="font-size:17px; margin-top:-10px;">@Model.body</p>
+				<div class="row">
+					@if(isMember)
+					{
+						<div style="padding-top:30px;" class="large-12 small-12 columns">
+							<div class="row">
+								<form action="@Href("~/Home/PostComment")" method="post">
+									@Html.AntiForgeryToken()
+									<input type="hidden" name="postId" value="@Model.id" />
+									<textarea style="padding:10px;" class="radius" name="comment">Enter a comment..</textarea>
+									<input style="position:relative; margin-top:-20px;" id="logButton" type="submit" class="button right" value="Post Comment!" />
+								</form>
+							</div>
+						</div>
+						<hr style="opacity:0;">
+					}
+					<div style="padding:20px;" class="comments">
+						@if(comments == null)
+						{
+							<p style="font-size:17px; font-weight:bold; color:#008cba;">No Comments..</p>
+						}
+						else
+						{
+							foreach(Comment c in comments)
+							{	
+							
+								string[] words = c.comment.Split (' ');
+								foreach (string word in words) {
+									if (word.Contains ("#")) {
+										c.comment = c.comment.Replace (word, "<a class=\"\" style=\"font-size:13px; color:#008cba; padding:0px !important; width:auto;\">"+word+"</a>");
+									}
+								}
+								<div style="padding:5px; background:#eee; margin-bottom:15px; border:1px solid #ccc" class="row radius">
+									<div class="large-12 small-12 columns">
+										<div style="padding:0px;" class="large-1 small-1 columns">
+											<img style="border:1px solid #fff;" src="@Href("~/Content/Images/BlueMoon.png")" alt="" />
+										</div>
+										<div class="large-11 small-11 columns">
+											<p style="font-size:12px; font-style:italic; color:#008cba; font-weight:bold;" class="right">@c.time.ToString("D")</p>
+											@if(isMember)
+											{
+												Account user = Account.GetUser(User.Identity.Name);
+												string userName = (isMember && user.displayName == c.userName) ? "You" : c.userName;
+												<p style="font-size:17px; color:#008cba; font-weight:bold;">@userName said,</p>
+											}
+											else
+											{
+												<p style="font-size:17px; color:#008cba; font-weight:bold;">@c.userName said,</p>
+											}
+											<p style="font-size:13px; color:#444; margin-top:-25px;">@Html.Raw(c.comment)</p>
+										</div>
+									</div>
+								</div>
+							}
+						}
+					</div>
 				</div>
 			</div>
 		</div>
