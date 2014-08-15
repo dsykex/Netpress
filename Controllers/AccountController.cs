@@ -30,6 +30,7 @@ namespace Netpress.Controllers
 		public ActionResult Login()
 		{
 			AccountSetup ();
+			ViewBag.InvalidAcc = TempData ["InvalidAccount"];
 			return View ();
 		}
 

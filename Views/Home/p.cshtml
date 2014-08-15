@@ -15,10 +15,18 @@
 	Comment[] comments = Post.GetComments(Model.id);
 	bool isMember = ViewBag.IsMember ?? false;
 	bool isAdmin = ViewBag.IsAdmin ?? false;
+	string cSuccess = ViewBag.CommentSucc ?? "";
 }
 
 <div style="margin-top:30px;" class="large-12 small-12 columns">
 	<div class="row">
+		@if(cSuccess != "")
+		{
+			<div data-alert class="alert-box success ">
+		  		<p style="font-size:18px; text-align:center; padding:0px !important; margin:0px !important;">Comment Posted!</p>
+		  		<a href="#" class="close">&times;</a>
+			</div>
+		}
 		<div style="padding:0px;" class="large-9 small-9 columns">
 			<div style="padding:15px;" class="large-12 small-12 columns">
 				<div class="row">
@@ -37,7 +45,7 @@
 						</a>
 						<!-- <p style="font-family:opensans_italic; font-size:16px; margin:0 0 15px 15px;;">Written by, @Model.author</p> -->
 						<hr/>
-						<p style="font-size:17px; margin-top:-10px;">@Model.body</p>
+						<p style="font-size:17px; margin-top:-10px; padding:8px;">@Model.body</p>
 					</div>
 				</div>
 				<div class="row">
@@ -55,6 +63,7 @@
 						</div>
 						<hr style="opacity:0;">
 					}
+					
 					<div style="padding:20px;" class="comments">
 						@if(comments == null)
 						{
@@ -68,7 +77,7 @@
 								string[] words = c.comment.Split (' ');
 								foreach (string word in words) {
 									if (word.Contains ("#")) {
-										c.comment = c.comment.Replace (word, "<a class=\"\" style=\"font-size:13px; color:#008cba; padding:0px !important; width:auto;\">"+word+"</a>");
+										c.comment = c.comment.Replace (word, "<a class=\"hashtag\" style=\"font-size:13px; color:#008cba; padding:0px !important; width:auto;\">"+word+"</a>");
 									}
 								}
 								<div style="padding:5px; background:#eee; margin-bottom:15px; border:1px solid #ccc" class="row radius">
@@ -77,20 +86,25 @@
 											<img style="border:1px solid #fff;" src="@Href("~/Content/Images/BlueMoon.png")" alt="" />
 										</div>
 										<div class="large-11 small-11 columns">
+											@if(isAdmin)
+											{
+												<a href="@Href("~/")">&times;</a>
+											}
 											<p style="font-size:12px; font-style:italic; color:#008cba; font-weight:bold;" class="right">@c.time.ToString("D")</p>
 											@if(isMember)
 											{
 												Account user = Account.GetUser(User.Identity.Name);
 												string userName = (isMember && user.displayName == c.userName) ? "You" : c.userName;
-												<p style="font-size:17px; color:#008cba; font-weight:bold;">@userName said,</p>
+												<a data-tooltip class="has-tip" style="font-size:17px; color:#008cba; font-weight:bold;">@userName said,</a>
 											}
 											else
 											{
-												<p style="font-size:17px; color:#008cba; font-weight:bold;">@c.userName said,</p>
+												<p data-tooltip title="@c.userName" class="has-tip" style="font-size:17px; color:#008cba; font-weight:bold;">@c.userName said,</p>
 											}
-											<p style="font-size:13px; color:#444; margin-top:-25px;">@Html.Raw(c.comment)</p>
+											<p style="font-size:13px; color:#444;">@Html.Raw(c.comment)</p>
 										</div>
 									</div>
+									
 								</div>
 							}
 						}
@@ -98,6 +112,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div style="border-left: 1px solid #ccc; padding:0px;" class="large-3 small-3 columns">
 			<div style="padding:5px 10px 5px 10px; border:none;" class="panel">
 				<p class="text-center" style="color:#008cba">@Model.author created this post.</p>
@@ -120,5 +135,6 @@
 			}
 			<hr/>
 		</div>
+		
 	</div>
 </div>

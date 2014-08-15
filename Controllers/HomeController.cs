@@ -62,6 +62,7 @@ namespace Netpress.Controllers
 		{
 			Post post = Post.GetPost (id);
 			AccountSetup ();
+			ViewBag.CommentSucc = TempData ["CommentSuccess"];
 			return View (post);
 		}
 
@@ -233,6 +234,7 @@ namespace Netpress.Controllers
 				                                 com.comment,
 				                                 com.postId);
 				cmd.ExecuteNonQuery ();
+				TempData ["CommentSuccess"] = "Comment Posted! :)";
 			}
 			db.connection.Close ();
 			return RedirectToAction ("p", "Home", new { id = post.id });

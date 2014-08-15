@@ -141,7 +141,7 @@ namespace Netpress.Models
 			} else {
 				user = null;
 			}
-			return (user == null) ? null : user;
+			return (string.IsNullOrEmpty(user.username)) ? null : user;
 		}
 	}
 }

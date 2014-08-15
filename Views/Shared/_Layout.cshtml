@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="@Url.Content("~/Content/css/foundation.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Content/css/custom.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Content/css/fontstyles.css")" type="text/css" charset="utf-8" />
-    <script src="@Url.Content("~/Scripts/js/foundation/foundation.js")"></script>
+
 
 </head>
 @using Netpress.Models;
@@ -46,20 +46,42 @@
 		else
 		{
 			<div class="row">		
-				<a id="logButton" href="@Href("~/Account/Signup")" class="button  right">Signup</a>
-				<a id="logButton" href="@Href("~/Account/Login")" class="button right">Login</a>
+				<a id="accountBtns" href="@Href("~/Account/Signup")" class="button right">Signup</a>
+				<a id="accountBtns" href="@Href("~/Account/Login")" class="button right">Login</a>
 			</div>
 		}
 		<!--<p class="text-center" style="font-size:13px; text-align:center; color:#008cba; font-style:italic; margin:0; position:relative; top:-20px; border:1px solid #000; width:150px;">Developed by DSykex of Sykes Creatives.</p>-->
 	</div>
 	
-	<div style="padding:0px;" class="row">
-	@RenderBody()
+	<div id="wrapper">
+		<div id="body">
+			@RenderBody()
+		</div>
+		<div style="clear:both; padding-bottom:80px;"></div>
+		<div id="footer" class="text-center">
+			<p style="margin-top:24px; color:#fff;">Copyright &copy; Sykes Creatives.</p>
+			<p style="margin-top:-23px !important; color:#fff;">All Rights Reserved.</p>
+		</div>
 	</div>
     <script src="@Url.Content("~/Scripts/js/vendor/jquery.js")"></script>
+    <script src="@Url.Content("~/Scripts/js/vendor/modernizr.js")"></script>
     <script src="@Url.Content("~/Scripts/js/foundation.min.js")"></script>
     <script>
-      $(document).foundation();
+      $(document).foundation({
+      	magellan : 
+      		{
+      			  // specify the class used for active sections
+				  active_class: 'active',
+				  // how many pixels until the magellan bar sticks, 0 = auto
+				  threshold: 0,
+				  // pixels from the top of destination for it to be considered active
+				  destination_threshold: 20,
+				  // calculation throttling to increase framerate
+				  throttle_delay: 50,
+				  // top distance in pixels assigned to the fixed element on scroll
+				  fixed_top: 0  
+      		}
+      });
     </script>
 </body>
 </html>

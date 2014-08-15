@@ -3,7 +3,7 @@
     ViewBag.Title = "Login - Netpress";
     Layout = "~/Views/Shared/_Layout.cshtml";
     bool isAdmin = ViewBag.IsAdmin ?? false;
-    string accountAuth = ViewBag.InvalidAccount ?? "";
+    string accountAuth = ViewBag.InvalidAcc ?? "";
     bool showLogin = ViewBag.ShowLog ?? false;
     bool isMember = ViewBag.IsMember ?? false;
 }
@@ -15,17 +15,21 @@
 }
 else
 {
+    if (accountAuth != "")
+    {
+        <div data-alert class="alert-box alert ">
+			@accountAuth
+			<a href="#" class="close">&times;</a>
+		</div>
+    }
+
     <div class="large-12 small-12 columns">
         <div class="row">
             <div class="login-body">
                 <div class="row">
 	                <div class="large-6 small-6 columns">
 	                    <fieldset class="borderless">
-	        
-	                        @if (accountAuth != "")
-	                        {
-	                            <p id="messagee" style="font-size:17px; font-weight:bold; padding:10px;" class="error label expand">@accountAuth</p>
-	                        }
+	       
 	                        <form action="@Href("~/Account/Auth")" method="post" id="loginMethod"> 
 	                        @Html.AntiForgeryToken()
 	                        		<input type="hidden" name="id" />
