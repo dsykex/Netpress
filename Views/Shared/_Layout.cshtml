@@ -15,8 +15,37 @@
 @{	
     bool isMember = ViewBag.IsMember ?? false;
     bool isAdmin = ViewBag.IsAdmin ?? false;
+    string url = Request.Url.AbsoluteUri;
 }
 <body>
+	<div id="loginModal" class="reveal-modal" data-reveal>
+  		<div class="large-12 small-12 columns">
+	        <div class="row">
+	            <div class="login-body">
+	                <div class="row">
+	                    <fieldset class="borderless">
+	       
+	                        <form action="@Href("~/Account/Auth")" method="post" id="loginMethod"> 
+	                        @Html.AntiForgeryToken()
+	                        		<input type="hidden" name="id" />
+	                                <label for="name">Name:</label>
+	                                <input type="text" name="username" id="name" class="radius" title="Enter your username"/>
+	                                <label for="password">Password:</label>
+	                                <input type="password" name="password" id="password" value="" class="radius" title="Enter your pasword"/>
+	                                
+	                                <input id="logButton" type="submit" name="login" class="small button radius" value="Login"  />
+	                                <input id="logButton" type="button"class="small button radius" value ="Oh Snap!" title="Forgot your password?" />
+	                        </form>
+	                    </fieldset> 
+	                </div>
+	            </div>
+	        </div>
+    	</div>
+	  <a class="close-reveal-modal">&#215;</a>
+	</div>
+	
+	<!-------------------------------------------------------------->
+	
 	<div style="background:#008cba; height:40px; padding-top:5px;" class="text-center">
 		<a id="headerName" style="font-weight:bold; font-family:opensans_light;" href="@Href("~/")" class="text-center">**Netpress CMS**</a>
 		@if(isMember)
@@ -24,7 +53,7 @@
 			Account user = Account.GetUser(User.Identity.Name);
 			string displayName = user.displayName ?? user.username;
 			string rank = (user.rank == "a") ? "Administrator" : "Member";
-			<div style="background:#008cba; height:70px;margin-top:10px;">
+			<div style="background:#008cba; height:70px;margin-top:10px; left">
 				<div style="padding:0px;" class="large-12 small-12 columns">
 					<div class="row">
 						<div style="padding:0px;" class="large-6 small-6 columns">
@@ -36,18 +65,28 @@
 									<p style="color:#fff; font-size:22px; font-weight:bold; padding:0px 0px 0px 10px;" class="left">Hello, @displayName!</p>
 								</div>
 							</div>
-							<p style="color:#fff; font-size:15px; position:relative; margin-top:-22px; margin-left:52px;" class="left">@rank</p>
+							@if(user.rank == "a")
+							{
+								<p style="color:rgb(255,0,0);font-weight:bold; font-size:15px; position:relative; margin-top:-22px; margin-left:52px;" class="left">@rank</p>
+							}
+							else
+							{
+								<p style="color:#fff; font-size:15px; position:relative; margin-top:-22px; margin-left:52px;" class="left">@rank</p>
+							}
 						</div>
 					</div>
 				</div>
 			</div>
-			<a id="logButton" style="margin-top:0px !important;" href="@Href("~/Account/DeAuth")" class="button right">Logout</a>
+			<form action="@Href("~/Account/DeAuth")" method="post">
+				<input type="hidden" name="url" value="@url" />
+				<input type="submit" class="button right" style="margin-top:-100px !important;" value="Logout"/>
+			</form>
 		}
 		else
 		{
 			<div class="row">		
 				<a id="accountBtns" href="@Href("~/Account/Signup")" class="button right">Signup</a>
-				<a id="accountBtns" href="@Href("~/Account/Login")" class="button right">Login</a>
+				<a id="accountBtns" href="#" data-reveal-id="loginModal" class="button right">Login</a>
 			</div>
 		}
 		<!--<p class="text-center" style="font-size:13px; text-align:center; color:#008cba; font-style:italic; margin:0; position:relative; top:-20px; border:1px solid #000; width:150px;">Developed by DSykex of Sykes Creatives.</p>-->

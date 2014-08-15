@@ -54,6 +54,7 @@ namespace Netpress.Controllers
 			reader.Close (); 
 			//ExecuteCommand (db.connection);
 			db.connection.Close ();
+			ViewBag.PostDeleted = TempData ["PostDeleted"];
 			AccountSetup ();
 			return View (posts);
 		}
@@ -63,6 +64,7 @@ namespace Netpress.Controllers
 			Post post = Post.GetPost (id);
 			AccountSetup ();
 			ViewBag.CommentSucc = TempData ["CommentSuccess"];
+			ViewBag.ComDelete = TempData ["DeleteMessage"];
 			return View (post);
 		}
 
@@ -161,6 +163,24 @@ namespace Netpress.Controllers
 			return RedirectToAction("p", "Home", new { id = returnId });
 		}
 
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeletePost(int id)
+		{
+			int counter = 0;
+			Post post = Post.GetPost (id);
+			NPDB db = new NPDB ();
+			MySqlCommand delPostCmd = db.connection.CreateCommand ();
+			MySqlCommand delPostComsCmd = db.connection.CreateCommand ();
+			delPostCmd.CommandText = string.Format("DELETE FROM posts WHERE id={0}",id);
+			delPostCmd.ExecuteNonQuery ();
+			delPostComsCmd.CommandText = string.Format("DELETE FROM comments WHERE pid={0}",id);
+			delPostComsCmd.ExecuteNonQuery ();
+			db.connection.Close ();
+			TempData ["PostDeleted"] = "Post at '("+id+")' Deleted.";
+			return RedirectToAction ("Index", "Home");
+		}
+
 		/*private void ExecuteCommand(MySqlConnection c)
 		{
 			//string query = "INSERT INTO posts (id, title, post_time, author, tags, body) VALUES('1', 'Bagro Bang - Two', '"+DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")+"', 'DSykex', 'bang bang bruh', 'fdafdfdsffjsdhflkdjshfldjsfhlajhfdlsjfhdalhfsdjhljdafsfsfsfsfsfsfafdsf')";
@@ -238,6 +258,21 @@ namespace Netpress.Controllers
 			}
 			db.connection.Close ();
 			return RedirectToAction ("p", "Home", new { id = post.id });
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[ValidateInput(false)]
+		public ActionResult DeleteComment(int id, int postId)
+		{
+			Post post = Post.GetPost (postId);
+			NPDB db = new NPDB ();
+			MySqlCommand cmd = db.connection.CreateCommand ();
+			cmd.CommandText = string.Format ("DELETE FROM comments WHERE id={0}", id);
+			cmd.ExecuteNonQuery ();
+			db.connection.Close ();
+			TempData["DeleteMessage"] = "Comment at '("+id+")' deleted.";
+			return RedirectToAction ("p", "Home", new {id = postId});
 		}
 	}
 }

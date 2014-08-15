@@ -2,11 +2,21 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Netpress CMS";
+    bool isMember = ViewBag.IsMember ?? false;
+    bool isAdmin = ViewBag.IsAdmin ?? false;
     int pCount = ViewBag.Count ?? 0;
+    string postDeleted = ViewBag.PostDeleted ?? "";
 }
 
 <div class="large-12 small-12 columns">
 	<div class="row">
+		@if(postDeleted != "")
+		{
+			<div data-alert class="alert-box">
+		  		<p style="font-size:18px; text-align:center; padding:0px !important; margin:0px !important;">@postDeleted</p>
+		  		<a href="#" class="close">&times;</a>
+			</div>
+		}
 		<div style="position:relative; top:20px;" class="panel radius" id="disc-panel">
 			<div class="row">
 				<div id="repoMessage" class="large-4 small-4 columns">
@@ -65,7 +75,15 @@
 							</div>
 							<div style="padding:0;" class="large-9 small-9 columns">			
 								<a href="@Href("~/Home/p/" + p.id)" style="font-weight:100; color:#008cba; font-size:32px; margin:0;">@p.title 
-									<a data-tooltip href="@Href("~/Home/edit_post/" + p.id)" style="padding:4px 8px 4px 8px; font-weight:bold; font-size:12.5px;" class="small button right radius" title="Make changes to @p.title">Edit Post</a>
+									@if(isAdmin)
+									{
+										<form action="@Href("~/Home/DeletePost")" method="post">
+											@Html.AntiForgeryToken()
+											<input type="hidden" name="id" value="@p.id" />
+											<input data-tooltip title="Delete Post?.." type="submit" class="right" style="font-size:19px; color:rgb(255,0,0); background:none; border:none;" value="&times;" />
+										</form>
+										<a data-tooltip href="@Href("~/Home/edit_post/" + p.id)" style="padding:4px 8px 4px 8px; font-weight:bold; font-size:12.5px;" class="small button right radius" title="Make changes to @p.title?..">Edit Post</a>
+									}
 								</a>
 								<p style="font-family:opensans_italic; font-size:16px; margin:0 0 15px 15px;;">Written by, @p.author</p>
 								<p style="font-size:17px; margin-top:-10px;">@p.body</p>

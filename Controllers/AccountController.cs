@@ -128,12 +128,13 @@ namespace Netpress.Controllers
 			return View("Login");
 		}
 
-		public ActionResult DeAuth()
+		public ActionResult DeAuth(string url)
 		{
 			Session["IsAdmin"] = null;
 			Session["IsMember"] = null;
 			FormsAuthentication.SignOut();
-			return RedirectToAction("Index", "Home");
+			//return RedirectToAction("Index", "Home");
+			return Redirect (url);
 		}
 
 		public void AccountSetup()
